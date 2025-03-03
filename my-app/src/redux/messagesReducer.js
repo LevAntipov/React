@@ -1,5 +1,4 @@
 const ADD_MESSAGE = "ADD-MESSAGE";
-const UPDATE_NEW_MESSAGE_TEXT = "UPDATE-NEW-MESSAGE-TEXT"
 
 let initialState = {
     dialogsData: [
@@ -14,7 +13,6 @@ let initialState = {
         { id: 2, message: "How are you" },
         { id: 3, message: "You'r looking good" },
     ],
-    newMessageText: "",
 }
 
 const messagesReducer = (state = initialState, action) => {
@@ -35,36 +33,23 @@ const messagesReducer = (state = initialState, action) => {
             */
             return ({
                 ...state,
-                messagesData: [...state.messagesData, { id: 4, message: state.newMessageText }],
-                newMessageText: "",
+                messagesData: [...state.messagesData, { id: 4, message: action.message }],
             })
 
         /* Используется для сохранения главной стратегии flux->redax, а именно -
          - UI не может меняться без изменения BLL(state), соответсвенно -
          - при каждом вписанном в textarea символе происходит изменения state, а затем рендер.
          */
-        case (UPDATE_NEW_MESSAGE_TEXT):
-            return ({
-                ...state,
-                newMessageText: action.areatext
-            })
-
         default:
             return state;
     }
 
 }
 
-export const addMessageActionCreator = () => {
+export const addMessageActionCreator = (message) => {
     return {
-        type: ADD_MESSAGE
-    }
-}
-
-export const updateNewMessageTextActionCreator = (text) => {
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        areatext: text
+        type: ADD_MESSAGE,
+        message
     }
 }
 

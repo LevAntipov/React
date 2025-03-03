@@ -20,11 +20,11 @@ class ProfileContainer extends React.Component {
 
     render() {
         return (
-            <content>
+            <div>
                 {/* {withRoute(<Profile {...this.props} profile = {this.props.usersProfile}/>)}*/}
                 <Profile {...this.props} profile={this.props.userProfile} status ={JSON.stringify(this.props.userStatus)}
                                          updateUserStatus = {this.props.updateUserStatus} />
-            </content>
+            </div>
         )
     }
 

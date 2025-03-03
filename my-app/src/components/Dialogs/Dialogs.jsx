@@ -3,8 +3,7 @@ import DialogChats from './DialogChats/DialogChats';
 import DialogsMessagesContainer from './DialogMessages/DialogMessagesContainer';
 import { connect } from 'react-redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { Navigate, useLocation } from 'react-router';
-
+import { compose } from "redux";
 
 
 
@@ -26,10 +25,10 @@ let mapStateToProps = (state) => {
     }
 }
 
-let AuthRedirectComponent = withAuthRedirect(Dialogs)
+//let AuthRedirectComponent = withAuthRedirect(Dialogs)
+//let DialogsContainer = connect(mapStateToProps, {})(AuthRedirectComponent)
 
-
-
-
-let DialogsContainer = connect(mapStateToProps, {})(AuthRedirectComponent)
-export default DialogsContainer;
+export default compose(
+    connect(mapStateToProps, {}),
+    //withAuthRedirect
+)(Dialogs);

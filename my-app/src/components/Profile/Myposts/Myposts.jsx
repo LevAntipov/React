@@ -1,6 +1,7 @@
 import classes from './Myposts.module.css'
 import Post from './Post/Post';
 import React from 'react';
+import {Field,reduxForm } from 'redux-form'
 
 function Myposts(props) {
 
@@ -8,7 +9,8 @@ function Myposts(props) {
 
     let newPostElement = React.createRef();
 
-    let addPost = () => {
+    let addPost = (value) => {
+        debugger
         //props.addPost(); - было 1.0
         //props.dispatch({type:"ADD-POST"}) - было 2.0, не подходит, тк получается, что нарушается принцип
         //                                    одиночной ответственности, в компоненте не должен создаваться объект
@@ -17,7 +19,7 @@ function Myposts(props) {
     }
 
     let onChangeText = () => {
-        
+
         let textOfPost = newPostElement.current.value;
         //props.updateNewPostText(textOfPost); - было
         //props.dispatch({type:"UPDATE-NEW-POST-TEXT",areatext:textOfPost}) - было 2.0, не подходит, тк получается, что нарушается принцип
@@ -28,22 +30,24 @@ function Myposts(props) {
 
     return (
         <div className={classes['posts-area']}>
-            <div className={classes['write-form']}>
-                <textarea
-                    className={`${classes.textarea} ${classes['write-form__item']}`}
-                    ref={newPostElement}
-                    value={props.newPostText}
-                    onChange={onChangeText} />
-
-                <button
-                    className={`${classes.button} ${classes['write-form__item']}`}
-                    onClick={addPost}>
-                    Добавить пост
-                </button>
-            </div>
+            <AddPostReduxForm qwe={addPost} />
             {renderPosts}
         </div>
     )
 }
+
+const AddPostForm = (props) => {
+    return (
+        <form onSubmit={props.qwe}>
+            
+                <Field name ={"postText"} placeholder={'Text of post'} component ={"input"}/>
+                <button>
+                    Добавить пост
+                </button>
+         
+        </form>
+    )
+}
+const AddPostReduxForm = reduxForm({form:'post'})(AddPostForm)
 
 export default Myposts;

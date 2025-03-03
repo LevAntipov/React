@@ -1,10 +1,27 @@
 import React from 'react'
 import classes from './DialogMessages.module.css'
+import { Field, reduxForm } from 'redux-form'
 
+const AddMessageForm = (props) => {
+    //   const { onSubmit } = props //новый синтаксис
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div className={classes['write-form']}>
+                <Field name={"addMessage"} placeholder={'Mesage:'} component={'input'}
+                />
+                <button
+                // onClick={addMessage}
+                >
+                    Добавить пост
+                </button>
+            </div>
+        </form>
+    )
+}
 
+const AddMessageReduxForm = reduxForm({ form: 'dialogAddMessageForm' })(AddMessageForm)
 
-
-function DialogMessages(props) {
+const DialogMessages = (props) => {
 
     const MessageItem = (props) => {
         return (
@@ -16,44 +33,36 @@ function DialogMessages(props) {
 
     let renderMessages = props.messages.map(item => <MessageItem message={item.message} />)
 
-    let newMessageElement = React.createRef();
+  //  let newMessageElement = React.createRef();
 
-    let addMessage = () => {
-       // props.dispatch({type:"ADD-MESSAGE"})
-       props.addMessage();
-    }
-
-    let onChangeText = () => {
+    {/*let onChangeText = () => {
         let textOfMessage = newMessageElement.current.value;
         //props.dispatch({type:"UPDATE-NEW-MESSAGE-TEXT", areatext:textOfMessage})
         props.updateNewMessageText(textOfMessage)
+    }*/}
+
+
+
+    const onSubmit = (values) => {
+        props.addMessage(values.addMessage)
     }
-
-
 
     return (
         <div className={classes.dialogs__message}>
             <div>
                 {renderMessages}
             </div>
-            <div className={classes['write-form']}>
-                <textarea
-                    className={`${classes.textarea} ${classes['write-form__item']}`}
-                    ref={newMessageElement}
-                    value={props.newMessageText}
-                    onChange={onChangeText}
-                />
-
-                <button
-                    className={`${classes.button} ${classes['write-form__item']}`}
-                    onClick={addMessage}
-                >
-                    Добавить пост
-                </button>
-            </div>
-
+            <AddMessageReduxForm onSubmit={onSubmit} />
         </div>
     )
 }
+
+
+
+
+
+
+
+
 
 export default DialogMessages;

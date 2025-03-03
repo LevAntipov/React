@@ -24,7 +24,7 @@ function App(props) {
             <ProfileContainer />}
           />
 
-          <Route path='/dialogs' element={
+           <Route path='/dialogs' element={
             <DialogsContainer />}
           />
 
@@ -32,9 +32,9 @@ function App(props) {
             <UsersContainer />}
           />
 
-          <Route path='/login' element={
+ {/*         <Route path='/login' element={
             <Login />}
-          />
+          />*/}
 
           <Route path='/music' Component={Music} />
           <Route path='/news' Component={News} />
