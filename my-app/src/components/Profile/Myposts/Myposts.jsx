@@ -9,16 +9,15 @@ function Myposts(props) {
 
     let newPostElement = React.createRef();
 
-    let addPost = (value) => {
-        debugger
+    let addPostText = (value) => {
         //props.addPost(); - было 1.0
         //props.dispatch({type:"ADD-POST"}) - было 2.0, не подходит, тк получается, что нарушается принцип
         //                                    одиночной ответственности, в компоненте не должен создаваться объект
         //props.dispatch(addPostActionCreator()); - опять же компонента знает про dispatch, создаем MyPostsContainer и берем оттуда
-        props.addPost();
+        props.addPost(value.postText);
     }
 
-    let onChangeText = () => {
+   {/*let onChangeText = () => {
 
         let textOfPost = newPostElement.current.value;
         //props.updateNewPostText(textOfPost); - было
@@ -26,11 +25,11 @@ function Myposts(props) {
         //                                                                    одиночной ответственности, в компоненте не должен создаваться объект
         //props.dispatch(updateNewPostTextActionCreator(textOfPost)); - опять же компонента знает про dispatch, создаем MyPostsContainer и берем оттуда
         props.updateNewPostText(textOfPost)
-    }
+    }*/} 
 
     return (
         <div className={classes['posts-area']}>
-            <AddPostReduxForm qwe={addPost} />
+            <AddPostReduxForm onSubmit={addPostText} />
             {renderPosts}
         </div>
     )
@@ -38,7 +37,7 @@ function Myposts(props) {
 
 const AddPostForm = (props) => {
     return (
-        <form onSubmit={props.qwe}>
+        <form onSubmit={props.handleSubmit}>
             
                 <Field name ={"postText"} placeholder={'Text of post'} component ={"input"}/>
                 <button>

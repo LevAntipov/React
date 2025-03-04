@@ -43,7 +43,7 @@ const DialogMessages = (props) => {
 
 
 
-    const onSubmit = (values) => {
+    const addMessageText = (values) => {
         props.addMessage(values.addMessage)
     }
 
@@ -52,7 +52,7 @@ const DialogMessages = (props) => {
             <div>
                 {renderMessages}
             </div>
-            <AddMessageReduxForm onSubmit={onSubmit} />
+            <AddMessageReduxForm onSubmit={addMessageText} />
         </div>
     )
 }
