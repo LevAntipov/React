@@ -1,7 +1,8 @@
 .header {
   grid-area: header;
   background-color: rgba(82, 28, 12, 0.767);
-  display: flex;  
+  display: grid;
+  grid-template-columns: 10% 90%;
 }
 
 .header img {
@@ -11,8 +12,12 @@
 
 .loginBlock {
   margin-left: auto;
+  width: 150px;
   padding-right: 50px;
   text-align: center;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  align-items: center; /*вертикальное выравнивание*/
 
 }
 
@@ -20,4 +25,5 @@
   width: 40px;
   height: 40px;
   border-radius: 99%;
+  margin-right: 20px;
 }

@@ -8,8 +8,13 @@ function Header(props) {
         <header className={classes.header}>
             <img src={book}></img>
             <div className={classes.loginBlock}>
-                {props.avatar_TEST ? <img src={props.avatar_TEST}/> : <img src={noPhotoUser}/>}
-                {props.isAuth ? <NavLink to=''>{props.login}</NavLink> : <NavLink to='/login'>login</NavLink>}
+                {props.avatar_TEST ? <img src={props.avatar_TEST} /> : <img src={noPhotoUser} />}
+                {props.isAuth
+                    ?<div>
+                        <button onClick={props.logout}>logout</button>
+                        <NavLink to='/profile'>{props.login}</NavLink>
+                    </div>
+                    :<NavLink to='/login'>login</NavLink>}
             </div>
         </header>
     )

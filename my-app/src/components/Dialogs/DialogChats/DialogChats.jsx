@@ -15,7 +15,7 @@ function DialogChats() {
         return (
             <div className={classes.dialogs__chat__item}>
                 <div className={classes.dialogs__chat__item__img}>
-                    <img src={props.avatar} />
+                  {/*  <img src={props.avatar} />*/}
                 </div>
                 <div>
                     <NavLink to={"/dialogs/" + props.id}>{props.name}</NavLink>
