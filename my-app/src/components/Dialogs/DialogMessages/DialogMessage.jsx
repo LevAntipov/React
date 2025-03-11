@@ -38,7 +38,7 @@ const DialogMessages = (props) => {
         )
     }
 
-    let renderMessages = props.messages.map(item => <MessageItem message={item.message} />)
+    let renderMessages = props.messages.map((item, index) => <MessageItem key={index} message={item.message} />)
 
     const addMessageText = (values) => {
         debugger
@@ -50,7 +50,7 @@ const DialogMessages = (props) => {
             <div>
                 {renderMessages}
             </div>
-            <AddMessageReduxForm onSubmit={addMessageText} />
+           {/* <AddMessageReduxForm onSubmit={addMessageText} />*/}
         </div>
     )
 

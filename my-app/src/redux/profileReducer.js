@@ -27,9 +27,11 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case (ADD_POST): {
+            debugger
             return ({
                 ...state,
-                postsData: [...state.postsData, { id: 5, message: action.postText, likescount: "" }],
+                postsData: [...state.postsData, { id:state.postsData.length + 1,
+                                                 message: action.postText, likescount: "" }],
             })
 
         }

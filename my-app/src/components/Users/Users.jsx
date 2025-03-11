@@ -13,30 +13,27 @@ let Users = (props) => {
     }
 
     return (<>
-
-
-
         <div>
             <div>
-                {pages.map(page =>
-                    <span onClick={() => props.onPageChanged(page)}
-                        className={props.currentPage == page ? classes["current-page"] : ""}>
+                {pages.map((page,index) =>
+                    <span onClick={() => props.onPageChanged(page)} key = {index}
+                        className={props.currentPage === page ? classes["current-page"] : ""}>
                         {page}
                     </span>)}
             </div>
             {/* <button onClick={getUsers}>AddUsers</button>*/}
 
             {props.isFetching
-                ? <img src={preloader} width={200} height={200} />
-                : props.users.map(u => {
+                ? <img alt="" src={preloader} width={200} height={200} />
+                : props.users.map((u,index) => {
                     return (
-                        <div className={classes['user-card']}>
+                        <div className={classes['user-card']} key={index}>
                             <div className={classes['user-icon']}>
                                 <NavLink to={'/profile/' + u.id}>
-                                    <img src={u.photos.small == null ? noPhotoUser : u.photos.small} />
+                                    <img alt="" src={u.photos.small == null ? noPhotoUser : u.photos.small} />
                                 </NavLink>
                                 <div>
-                                    {u.followed == true
+                                    {u.followed === true
                                         ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => props.followStatusChange(u, false)}>unFollow</button>
                                         : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => props.followStatusChange(u, true)}>Follow</button>}
                                 </div>

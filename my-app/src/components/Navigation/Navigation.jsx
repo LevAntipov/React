@@ -14,7 +14,7 @@ function Navigation() {
     //     }
     // }
     return (
-        <navigation className={classes.navigation}>
+        <nav className={classes.navigation}>
             <div className={classes.bar}>
                 <NavLink to='/profile' className={navData => navData.isActive ? classes.activeLink : classes.bar__item}>Profile</NavLink>
             </div>
@@ -33,7 +33,7 @@ function Navigation() {
             <div className={classes.bar}>
                 <NavLink to='/settings' className={navData => navData.isActive ? classes.activeLink : classes.bar__item}>Settings</NavLink>
             </div>
-        </navigation>
+        </nav>
     )
 }
 

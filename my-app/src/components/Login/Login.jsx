@@ -5,7 +5,7 @@ import { FormControl } from './../common/FormsControls/FormsControls'
 import { login, logout } from './../../redux/authReducer'
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router';
-
+import classes from './../common/FormsControls/FormsControls.module.css'
 
 let Input = FormControl('input')
 
@@ -22,8 +22,11 @@ const LoginForm = (props) => {
             </div>
             <div>
                 <Field name={"rememderMe"} component={Input}
-                    type={'checkbox'} validate={required} /> Remember me
+                    type={'checkbox'} /> Remember me
             </div>
+            {props.error && <div className={classes.formSummaryError}>
+                {props.error}
+            </div>}
             <div>
                 <button>Log in</button>
             </div>

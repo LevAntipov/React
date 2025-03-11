@@ -24,7 +24,8 @@ function DialogChats() {
         )
     }
 
-    let renderDialogs = dialogs.map(item => <ChatItem name={item.name} id={item.id} avatar={item.avatar} />)
+    let renderDialogs = dialogs.map((item,index) => <ChatItem name={item.name} id={item.id} 
+                                                                avatar={item.avatar} key ={index} />)
 
     return (
         <div className={classes.dialogs__chat}>

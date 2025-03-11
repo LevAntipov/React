@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
 import classes from './News.module.css'
 
-function News() {
+const News = ()=> {
+
+    useEffect(()=>{
+        console.log('рендер')
+    })
+
     return (
         <div>News</div>
     );

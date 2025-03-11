@@ -1,18 +1,73 @@
 import Profile from './Profile';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getUserProfile,getUserStatus,updateUserStatus } from './../../redux/profileReducer';
 import { compose } from 'redux';
 import {withParams} from './../../hoc/withParams'
-import {withAuthRedirect} from './../../hoc/withAuthRedirect'
+import { useNavigate } from 'react-router';
+
+//import {withAuthRedirect} from './../../hoc/withAuthRedirect'
 
 
-class ProfileContainer extends React.Component {
+const ProfileContainer = (props) =>{
+    const navigate = useNavigate()
+    
+    useEffect(()=>{
+        let userId = props.profileId
+        if (!userId) {
+          //  userId=2
+        
+            userId = props.authorizedUserId
+            if(!userId){
+                navigate('/login')
+                //this.props.history.push('/login')
+                return
+            }
+        }
+        props.getUserProfile(userId)
+        props.getUserStatus(userId)
+        
+
+    },[props.isAuth, navigate]) 
+
+    
+        return (
+            <div>
+                <Profile {...props} profile={props.userProfile} status ={JSON.stringify(props.userStatus)}
+                                         updateUserStatus = {props.updateUserStatus} />
+            </div>
+        )
+    
+
+}
+
+const mapStateToProps = (state) => {
+    return {
+        userProfile: state.profilePage.userProfile,
+        userStatus: state.profilePage.userStatus,
+        authorizedUserId: state.auth.userId,
+        isAuth:state.auth.isAuth
+    }
+}
+
+export default compose(
+    connect(mapStateToProps, { getUserProfile,getUserStatus,updateUserStatus }),
+    withParams,
+)(ProfileContainer)
+
+
+{/*class ProfileContainer extends React.Component {
 
     componentDidMount() {
         let userId = this.props.profileId
         if (!userId) {
-            userId = 32165;
+          //  userId=2
+        
+            userId = this.props.authorizedUserId
+            if(!userId){
+               
+               //this.props.history.push('/login')
+            }
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
@@ -22,37 +77,10 @@ class ProfileContainer extends React.Component {
     render() {
         return (
             <div>
-                {/* {withRoute(<Profile {...this.props} profile = {this.props.usersProfile}/>)}*/}
                 <Profile {...this.props} profile={this.props.userProfile} status ={JSON.stringify(this.props.userStatus)}
                                          updateUserStatus = {this.props.updateUserStatus} />
             </div>
         )
     }
 
-}
-
-const mapStateToProps = (state) => {
-    return {
-        userProfile: state.profilePage.userProfile,
-        userStatus: state.profilePage.userStatus
-    }
-}
-
-export default compose(
-    connect(mapStateToProps, { getUserProfile,getUserStatus,updateUserStatus }),
-    withAuthRedirect,
-    withParams,
-)(ProfileContainer)
-
-
-
-{/*const ContainerWithParams = (props) => {
-    const params = useParams();
-    let profileId = params.profileId;
-    return <ProfileContainer {...props} profileId={profileId} />
 }*/}
-//const ContainerWithParams = withRouter(ProfileContainer)
-//let AuthRedirectComponent = withAuthRedirect(ContainerWithParams)
-
-
-//export default connect(mapStateToProps, { getUserProfile })(AuthRedirectComponent)
