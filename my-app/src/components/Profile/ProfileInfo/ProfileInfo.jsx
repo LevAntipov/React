@@ -6,7 +6,7 @@ import a_location from './location.png'
 import education from './education.png'
 import preloader from './../../../assets/images/loader.svg'
 import { useStore } from 'react-redux'
-import ProfileStatus from "./ProfileStatus"
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks"
 import noPhotoUser from "./../../../assets/images/noPhotoUser.jpg"
 
 
@@ -39,7 +39,7 @@ function ProfileInfo(props) {
                 <ProfilePrivateInfo img={a_location} info={privateInfo.location} />
                 <ProfilePrivateInfo img={education} info={privateInfo.education} />
             </div>
-            <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
+            <ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus}/>
         </div>
     )
 }
