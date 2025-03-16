@@ -2,6 +2,7 @@ import { usersAPI, profileAPI } from '../api/api';
 const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = "SET-USER-PROFILE";
 const SET_USER_STATUS = "SET-USER-STATUS";
+const DELETE_POST = "DELETE-POST"
 
 //redux прогоняет какие-то свои action-ы
 // в начале, при инициализации проекта redux возвращает вместо state - undefined ->
@@ -22,7 +23,7 @@ let initialState = {
     userStatus: "пусто"
 }
 
-const profileReducer = (state = initialState, action) => {
+export const profileReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
@@ -35,6 +36,13 @@ const profileReducer = (state = initialState, action) => {
             })
 
         }
+        case (DELETE_POST):
+            return({
+                ...state,
+                postsData:[state.postsData.filter(function(item){
+                    return item !== action.postId
+                })]
+            })
         case (SET_USER_PROFILE):
             return ({
                 ...state,
@@ -57,6 +65,14 @@ export const addPostActionCreator = (postText) => {
         postText
     }
 }
+
+export const deletePostActionCreator = (postId) => {
+    return {
+        type: DELETE_POST,
+        postId
+    }
+}
+
 const setUserProfile = (profile) => {
     return {
         type: SET_USER_PROFILE,
