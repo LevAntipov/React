@@ -5,7 +5,7 @@ import usersReducer from "./usersReducer";
 import authReducer from "./authReducer";
 import appReducer from "./appReducer";
 import {thunk} from "redux-thunk";
-import { reducer as formReducer } from 'redux-form'
+//import { reducer as formReducer } from 'redux-form'
 
 let reducers = combineReducers({   // объяснение названия ключей объекта:
     profilePage: profileReducer,   // за --profile page-- отвечает profile reducer,который возвращает объект
@@ -14,7 +14,7 @@ let reducers = combineReducers({   // объяснение названия кл
     usersPage: usersReducer,
     auth:authReducer,
     //обязательно называем form, тк библиотека по дефолту будет обращаться к нему
-    form:formReducer,
+    // form:formReducer,
     app:appReducer
 })                              
 //applyMiddleware - промежуточный уровень, чтобы диспатчить функцию
