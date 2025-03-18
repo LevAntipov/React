@@ -1,0 +1,16 @@
+
+
+.loginForm span{
+color: aqua;
+}
+
+.loginInput{
+    width: 200px;
+    height: 30px;
+}
+
+.loginInput,  .loginButton{
+    
+    display: block;
+    margin: 0 auto;
+}

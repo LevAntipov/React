@@ -1,8 +1,8 @@
 import { usersAPI, authAPI } from "../api/api";
 //import { stopSubmit } from "redux-form";
 
-const SET_USER_DATA = "SET-USER-DATA";
-const SET_USER_PROFILE_DATA = "SET-USERS-PROFILE-DATA";
+const SET_USER_DATA = "auth/SET-USER-DATA";
+const SET_USER_PROFILE_DATA = "auth/SET-USERS-PROFILE-DATA";
 
 let initialState = {
     userId: undefined,
@@ -49,50 +49,41 @@ export const setUserAvatar = (avatar_TEST) => {
     }
 }
 
-export const getAuthUserData = () => {
-    return (
-        (dispatch) => {
-          return  authAPI.me().then(response => {
-                if (response.data.resultCode === 0) {
-                    let login = response.data.data.login;
-                    let id = response.data.data.id;
-                    let email = response.data.data.email;
-                    dispatch(setAuthUserData(id, email, login, true))
+export const getAuthUserData = () => async (dispatch) => {
+    let response = await authAPI.me()
+    if (response.data.resultCode === 0) {
+        let login = response.data.data.login;
+        let id = response.data.data.id;
+        let email = response.data.data.email;
+        dispatch(setAuthUserData(id, email, login, true))
 
-                    usersAPI.getProfile(id).then(response => {
-                        dispatch(setUserAvatar(response.data.photos.small))
+        usersAPI.getProfile(id).then(response => {
+            dispatch(setUserAvatar(response.data.photos.small))
 
-                    })
-                }
+        })
+    }
 
-            })
-        }
-    )
 }
 
-// export const login = (email,password,rememberMe) => {
-//     return (
-//         (dispatch) => {
-//             authAPI.login(email,password,rememberMe).then(response => {
-//                 if (response.data.resultCode === 0) {
-//                     dispatch(getAuthUserData())
-//                 }
-//                 else{
-//                     let message = response.data.messages.length>0 ? response.data.messages[0] : "some error" 
-//                     let action = stopSubmit("login",{_error:message}) //actioncreator из reduxForm, позволяет
-//                     dispatch(action)                                          //получить общую ошибку для всей формы
-//                 }
-//             })
-//         }
-//     )
-// }
+export const login = (email, password) => async (dispatch) => {
 
-export const logout = () => (dispatch) => {
-    authAPI.logout().then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(setAuthUserData(null,null,null,false))
-        }
-    })
+    let response = await authAPI.login(email, password)
+    if (response.data.resultCode === 0) {
+        dispatch(getAuthUserData())
+    }
+    else {
+        //это было для REDUX-FORM
+        //let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
+        // let action = stopSubmit("login",{_error:message}) //actioncreator из reduxForm, позволяет
+        // dispatch(action)                                          //получить общую ошибку для всей формы
+    }
+}
+
+export const logout = () => async (dispatch) => {
+    let response = await authAPI.logout()
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false))
+    }
 }
 
 

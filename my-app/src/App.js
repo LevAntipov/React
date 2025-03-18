@@ -36,17 +36,17 @@ class App extends React.Component {
               <ProfileContainer />}
             />
 
-            {/* <Route path='/dialogs' element={
+            <Route path='/dialogs' element={
               <DialogsContainer />}
-            /> */}
+            />
 
             <Route path='/users' element={
               <UsersContainer />}
             />
 
-            {/* <Route path='/login' element={
+            <Route path='/login' element={
               <Login />}
-            /> */}
+            />
 
             <Route path='/music' Component={Music} />
             <Route path='/news' Component={News} />

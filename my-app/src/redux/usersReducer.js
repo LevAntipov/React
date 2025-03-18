@@ -12,7 +12,7 @@ let initialState = {
     users: [],
     pageSize: 5,
     totalUsersCount: 20,
-    page: 5427,
+    page: 5445,
     isFetching: true,
     followingInProgress: [],
 }
@@ -130,45 +130,42 @@ export const setFollowingInProgress = (isFetching, userId) => {
 }
 
 export const requestUsers = (page, pageSize) => {
-    return (
-        (dispatch) => {
-            dispatch(setIsFetching(true))
-            usersAPI.getUsers(page, pageSize).then(data => {
-                dispatch(setIsFetching(false))
-                dispatch(setUsers(data.items));
-                dispatch(setTotalUsersCount(data.totalCount));
-            })
-        }
-    )
+    return async (dispatch) => {
+        dispatch(setIsFetching(true))
+
+        let response = await usersAPI.getUsers(page, pageSize)
+        dispatch(setIsFetching(false))
+        dispatch(setUsers(response.items));
+        dispatch(setTotalUsersCount(response.totalCount));
+    }
 }
 
 export const followStatusChange = (user, bool) => {
     if (bool) {//true - когда НАДО подписаться follow
         return (
-            (dispatch) => {
+            async (dispatch) => {
                 dispatch(setFollowingInProgress(true, user.id))
-                usersAPI.follow(user.id, true).then(response => {
-                    if (response.data.resultCode === 0) {
-                        dispatch(addFriend(user.id))
-                    }
-                    dispatch(setFollowingInProgress(false, user.id))
-                })
-            }
-        )
+
+                let response = await usersAPI.follow(user.id, true)
+                if (response.data.resultCode === 0) {
+                    dispatch(addFriend(user.id))
+                }
+                dispatch(setFollowingInProgress(false, user.id))
+            })
     }
+
     else {
         return (
-            (dispatch) => {
+            async (dispatch) => {
                 dispatch(setFollowingInProgress(true, user.id))
-                usersAPI.unfollow(user.id, false).then(response => {
-                    if (response.data.resultCode === 0) {
-                       dispatch(deleteFriend(user.id))
-                    }
-                    dispatch(setFollowingInProgress(false, user.id))
-                })
-            }
-        )
+                let response = await usersAPI.unfollow(user.id, false)
+                if (response.data.resultCode === 0) {
+                    dispatch(deleteFriend(user.id))
+                }
+                dispatch(setFollowingInProgress(false, user.id))
+            })
     }
 }
+
 
 export default usersReducer;

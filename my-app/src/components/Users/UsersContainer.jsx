@@ -71,7 +71,7 @@ class UsersAPIcomponent extends React.Component {
                 pageSize={this.props.pageSize}
                 onPageChanged={this.onPageChanged}
                 isFetching={this.props.isFetching}
-                page={this.props.page}
+                currentpage={this.props.page}
                 users={this.props.users}
                 followingInProgress = {this.props.followingInProgress}
                 followStatusChange = {this.props.followStatusChange}

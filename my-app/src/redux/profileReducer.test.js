@@ -25,5 +25,5 @@ test('message of new post should be correct', () => {
     let action = addPostActionCreator('lova lova')
     let newstate = profileReducer(state,action)
 
-    expect(newstate.postsData[2]).toBe("lova lova")
+    expect(newstate.postsData[1]).toBe("lova lova")
 });
