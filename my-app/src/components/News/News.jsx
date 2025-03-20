@@ -1,15 +1,10 @@
-import { useEffect } from 'react';
-import classes from './News.module.css'
+import React from "react";
 
 const News = ()=> {
 
-    useEffect(()=>{
-        console.log('рендер')
-    })
-
-    return (
-        <div>News</div>
-    );
+    let a = 'input'
+    return React.createElement(a)
+        
 }
 
 export default News;

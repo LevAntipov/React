@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import DialogsContainer from './components/Dialogs/Dialogs';
 import HeaderContainer from './components/Header/HeaderContainer';
-import Navigation from './components/Navigation/Navigation';
+import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import Login from './components/Login/Login'
 import News from './components/News/News';
@@ -27,7 +27,7 @@ class App extends React.Component {
     return (
       <div className='app-wrapper'>
         <HeaderContainer />
-        <Navigation />
+        <Navbar />
         <div className='app-wrapper-content'>
           <Routes>
             {/* Rout - если путь в браузере совпадает с path, то отрисовывается  element */}

@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router';
-import classes from './Navigation.module.css'
+import classes from './Navbar.module.css'
 //    .module для генерации объекта classes, в котором лежат
 //    уникальные идентификаторы для css селлекторов 
 
 
-function Navigation() {
+function Navbar() {
     // function activity(obj){
     //     if (obj.isActive){
     //         return classes.activeLink
@@ -37,4 +37,4 @@ function Navigation() {
     )
 }
 
-export default Navigation;
+export default Navbar;

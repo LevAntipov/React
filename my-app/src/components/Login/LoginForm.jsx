@@ -1,20 +1,19 @@
-import { useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { CreateField } from './../common/FormsControls/FormsControls'
 import styles from './LoginForm.module.css'
 
-export const LoginForm = (props) => {
+export const LoginForm = ({ login }) => {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm({
         mode: 'onChange' //отображение ошибки сразу при печати
     });
 
-    const onSubmit = (data) =>{
-        props.login(data.email,data.password)
+    const onSubmit = (data) => {
+        login(data.email, data.password)
     };
-    debugger
 
     //  console.log(watch("example")); // watch input value by passing the name of it
 
@@ -23,24 +22,36 @@ export const LoginForm = (props) => {
         <form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
 
             {/* register your input into the hook by invoking the "register" function */}
-            <input className={styles.loginInput}
+            {/* <input className={styles.loginInput}
                 placeholder='email'
                 {...register("email", {
                     required: "this field is required",
-                    pattern:"([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
+                    pattern: "([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
                 })}
+            /> */}
+
+            <CreateField Component='input' className={styles.loginInput}
+                placeholder='email' register={register} name="email"
+                rules={{
+                    required: "req",
+                    pattern: "([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"
+                }}
             />
+            {errors.email?.type === "required" && (
+                <p role="alert">email is required</p>
+            )}
 
-            <input className={styles.loginInput}
-                placeholder='password'
-                {...register("password", {
-                    required: "this field is required",
-                })}
+            <CreateField Component='input' className={styles.loginInput}
+                placeholder='password' register={register} name="password"
+                rules={{
+                    required: true,
+                    minLength: 6,
+                }}
             />
+            {errors.password?.type === "minLength" && (
+                <p role="alert">min : 6</p>
+            )}
 
-
-
-            
             <button className={styles.loginButton} type="submit">send</button>
         </form>
     );

@@ -1,4 +1,6 @@
+import React from 'react'
 import classes from './FormsControls.module.css'
+
 
 export const Textarea = ({ input, meta, ...props }) => {
     const hasError = meta.touched && meta.error
@@ -39,5 +41,38 @@ export function FormControl(Component) {
     }
 
     return ComponentWithRouterProp;
-} 
+}
+
+
+
+
+export const CreateField = ({ Component, className, placeholder, register, name, rules = {} }) => {
+    return (
+        React.createElement(
+            Component, {
+            className: className,
+            placeholder: placeholder,
+            ...register(name, {
+                ...rules
+            })
+            }
+        )
+    )   
+}
+
+
+
+// export function withParams(Component) {
+//     function ComponentWithRouterProp(props) {
+//         let params = useParams();
+//         return (
+//             <Component
+//                 {...props}
+//                 profileId={params.profileId}
+//             />
+//         );
+//     }
+
+//     return ComponentWithRouterProp;
+// } 
 

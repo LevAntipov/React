@@ -76,6 +76,7 @@ export const login = (email, password) => async (dispatch) => {
         //let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
         // let action = stopSubmit("login",{_error:message}) //actioncreator из reduxForm, позволяет
         // dispatch(action)                                          //получить общую ошибку для всей формы
+        console.log('error')
     }
 }
 
@@ -85,9 +86,5 @@ export const logout = () => async (dispatch) => {
         dispatch(setAuthUserData(null, null, null, false))
     }
 }
-
-
-
-
 
 export default authReducer;

@@ -6,12 +6,12 @@ import { LoginForm } from './LoginForm';
 import styles from './Login.module.css'
 
 
-const Login = (props) => {
+const Login = ({login,isAuth}) => {
     return (<div>
         <span className={styles.loginItem}>Login</span>
-        {props.isAuth
+        {isAuth
             ? <Navigate to='/profile' replace />
-            : <LoginForm login={props.login}/>}
+            : <LoginForm login={login}/>}
     </div>
     )
 }

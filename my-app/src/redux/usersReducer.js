@@ -1,4 +1,5 @@
 import { usersAPI } from "../api/api";
+import {updateObjectInArray} from "./../utils/object-helpers"
 
 const ADD_FRIEND = "ADD-FRIEND";
 const DELETE_FRIEND = "DELETE-FRIEND"
@@ -24,25 +25,20 @@ const usersReducer = (state = initialState, action) => {
             return (
                 {
                     ...state,
-                    //users:[...state.users]
-                    users: state.users.map(user => {
-                        if (user.id === action.userId) {
-                            return { ...user, followed: true } //Изменять state нельзя, возвращаем копию
-                        }
-                        return user;
-                    })
+                    users:updateObjectInArray(state.users,action.userId,"id",{followed: true}),
+                    // users: state.users.map(user => {
+                    //     if (user.id === action.userId) {
+                    //         return { ...user, followed: true } //Изменять state нельзя, возвращаем копию
+                    //     }
+                    //     return user;
+                    // })
                 }
             )
         case DELETE_FRIEND:
             return (
                 {
                     ...state,
-                    users: state.users.map(user => {
-                        if (user.id === action.userId) {
-                            return { ...user, followed: false }
-                        }
-                        return user;
-                    })
+                    users:updateObjectInArray(state.users,action.userId,"id",{followed: false}),
                 }
             )
         case SET_USERS:
@@ -140,30 +136,30 @@ export const requestUsers = (page, pageSize) => {
     }
 }
 
-export const followStatusChange = (user, bool) => {
-    if (bool) {//true - когда НАДО подписаться follow
-        return (
-            async (dispatch) => {
-                dispatch(setFollowingInProgress(true, user.id))
+export const foolowUnfollowFlow = async (dispatch, user, apiMethod, actionCreator) => {
+    dispatch(setFollowingInProgress(true, user.id))
 
-                let response = await usersAPI.follow(user.id, true)
-                if (response.data.resultCode === 0) {
-                    dispatch(addFriend(user.id))
-                }
-                dispatch(setFollowingInProgress(false, user.id))
-            })
+    let response = await apiMethod(user.id)
+    if (response.data.resultCode === 0) {
+        dispatch(actionCreator(user.id))
+    }
+
+    dispatch(setFollowingInProgress(false, user.id))
+}
+
+export const followStatusChange = (user, bool) => {
+    if (bool) { //true - когда НАДО подписаться follow
+        return async (dispatch) => {
+
+            foolowUnfollowFlow(dispatch, user, usersAPI.follow.bind(usersAPI), addFriend)
+        }
     }
 
     else {
-        return (
-            async (dispatch) => {
-                dispatch(setFollowingInProgress(true, user.id))
-                let response = await usersAPI.unfollow(user.id, false)
-                if (response.data.resultCode === 0) {
-                    dispatch(deleteFriend(user.id))
-                }
-                dispatch(setFollowingInProgress(false, user.id))
-            })
+        return async (dispatch) => {
+
+            foolowUnfollowFlow(dispatch, user, usersAPI.unfollow.bind(usersAPI), deleteFriend)
+        }
     }
 }
 
