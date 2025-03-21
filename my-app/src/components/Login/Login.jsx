@@ -6,19 +6,20 @@ import { LoginForm } from './LoginForm';
 import styles from './Login.module.css'
 
 
-const Login = ({login,isAuth}) => {
+const Login = ({login,isAuth,isValidData}) => {
     return (<div>
         <span className={styles.loginItem}>Login</span>
         {isAuth
             ? <Navigate to='/profile' replace />
-            : <LoginForm login={login}/>}
+            : <LoginForm login={login} isValidData ={isValidData}/>}
     </div>
     )
 }
 
 let mapStateToProps = (state) => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        isValidData: state.auth.isValidData
     }
 
 }

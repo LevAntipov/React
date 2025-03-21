@@ -1,0 +1,14 @@
+
+span{
+padding-left: 10px;
+}
+
+.current-page{
+    font-size: large;
+    color: aqua;
+    font-weight: bold;
+}
+
+.q:disabled{
+    opacity: 0.5;
+}

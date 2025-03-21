@@ -3,6 +3,7 @@ import { usersAPI, authAPI } from "../api/api";
 
 const SET_USER_DATA = "auth/SET-USER-DATA";
 const SET_USER_PROFILE_DATA = "auth/SET-USERS-PROFILE-DATA";
+const VALIDATION_USER_DATA = "VALIDATION-USER-DATA"
 
 let initialState = {
     userId: undefined,
@@ -11,7 +12,9 @@ let initialState = {
     isAuth: false,
     isFetching: true,
 
-    avatar_TEST: null
+    //Testing
+    avatar_TEST: null,
+    isValidData:true
 }
 
 const authReducer = (state = initialState, action) => {
@@ -28,7 +31,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 avatar_TEST: action.avatar_TEST
             }
-
+        case VALIDATION_USER_DATA:
+            return{
+                ...state,
+                isValidData:action.bool
+            }
         default:
             return state;
     }
@@ -65,18 +72,29 @@ export const getAuthUserData = () => async (dispatch) => {
 
 }
 
+//TESTING
+export const validationOfUserData = (bool) => {
+    return{
+        type:VALIDATION_USER_DATA,
+        bool
+    }
+}
+//TESTING
+
 export const login = (email, password) => async (dispatch) => {
 
     let response = await authAPI.login(email, password)
     if (response.data.resultCode === 0) {
+        dispatch(validationOfUserData(true))
         dispatch(getAuthUserData())
     }
     else {
-        //это было для REDUX-FORM
-        //let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
+        // // это было для REDUX-FORM
+        // let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
         // let action = stopSubmit("login",{_error:message}) //actioncreator из reduxForm, позволяет
         // dispatch(action)                                          //получить общую ошибку для всей формы
         console.log('error')
+        dispatch(validationOfUserData(false))
     }
 }
 
