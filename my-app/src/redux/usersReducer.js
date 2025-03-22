@@ -11,9 +11,9 @@ const FOLLOWINGINPROGRESS = "FOLLOWING-IN-PROGRESS"
 
 let initialState = {
     users: [],
-    pageSize: 5,
+    pageSize: 10,
     totalUsersCount: 20,
-    page: 5445,
+    page: 1,
     isFetching: true,
     followingInProgress: [],
 }

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import './App.css';
-import DialogsContainer from './components/Dialogs/Dialogs';
+//import DialogsContainer from './components/Dialogs/Dialogs';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
@@ -13,6 +13,12 @@ import UsersContainer from './components/Users/UsersContainer';
 import { connect } from 'react-redux';
 import { initializeApp } from './redux/appReducer';
 import loader from './../src/assets/images/loader.svg'
+import { BrowserRouter } from 'react-router';
+import store from './redux/reduxStore'
+import { Provider } from 'react-redux';
+
+
+const DialogsContainer = lazy(() => import('./components/Dialogs/Dialogs'));
 
 class App extends React.Component {
 
@@ -29,16 +35,19 @@ class App extends React.Component {
         <HeaderContainer />
         <Navbar />
         <div className='app-wrapper-content'>
+
+        <React.Suspense fallback={loader}>
           <Routes>
             {/* Rout - если путь в браузере совпадает с path, то отрисовывается  element */}
 
             <Route path='/profile/:profileId?' element={
               <ProfileContainer />}
             />
-
-            <Route path='/dialogs' element={
-              <DialogsContainer />}
-            />
+            
+              <Route path='/dialogs' element={<DialogsContainer/>
+                }
+              />
+            
 
             <Route path='/users' element={
               <UsersContainer />}
@@ -53,6 +62,8 @@ class App extends React.Component {
             <Route path='/settings' Component={Settings} />
 
           </Routes>
+          </React.Suspense>
+
         </div>
 
       </div>
@@ -68,5 +79,21 @@ let mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { initializeApp })(App);
+let AppContainer = connect(mapStateToProps, { initializeApp })(App);
 
+//Делается, чтобы не падали тесты (в index должна быть 1 компонента)
+let SocialNetwork = () => {
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+
+        <Provider store={store}>
+          <AppContainer />
+        </Provider>
+
+      </BrowserRouter>
+    </React.StrictMode>
+  )
+}
+
+export default SocialNetwork

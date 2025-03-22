@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore, compose } from "redux";
 import profileReducer from "./profileReducer";
 import messagesReducer from "./messagesReducer";
 import usersReducer from "./usersReducer";
@@ -16,9 +16,14 @@ let reducers = combineReducers({   // объяснение названия кл
     //обязательно называем form, тк библиотека по дефолту будет обращаться к нему
     // form:formReducer,
     app:appReducer
-})                              
+})
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
+
+//Это было до расширения гугл redux
 //applyMiddleware - промежуточный уровень, чтобы диспатчить функцию
-let store = createStore(reducers, applyMiddleware(thunk));
+//let store = createStore(reducers, applyMiddleware(thunk));
 
 window.store = store;
 

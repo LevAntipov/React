@@ -1,6 +1,8 @@
 import {
     useParams,
 } from "react-router";
+import React from "react";
+import loader from './../assets/images/loader.svg'
 
 export function withParams(Component) {
     function ComponentWithRouterProp(props) {
@@ -14,7 +16,20 @@ export function withParams(Component) {
     }
 
     return ComponentWithRouterProp;
-} 
+}
+
+export function withSuspense(Component) {
+    return (props) => {
+        return (
+            <React.Suspense fallback={loader}>
+                <Component {...props} />
+            </React.Suspense>
+        )
+    }
+
+}
+
+
 
 
 

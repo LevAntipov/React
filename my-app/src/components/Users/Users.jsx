@@ -1,7 +1,4 @@
 import React from "react";
-import noPhotoUser from './../../assets/images/noPhotoUser.jpg'
-import classes from './Users.module.css'
-import { NavLink } from "react-router";
 import preloader from './../../assets/images/loader.svg'
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
@@ -12,10 +9,12 @@ let Users = ({ totalUsersCount, pageSize, isFetching, users,
     return (<>
         <div>
 
-            <Paginator totalUsersCount={totalUsersCount}
+            <Paginator totalItemsCount={totalUsersCount}
                 pageSize={pageSize}
                 onPageChanged={onPageChanged}
-                currentpage={currentpage} />
+                currentpage={currentpage}
+                portionSize={10}
+                />
 
             {/* <button onClick={getUsers}>AddUsers</button>*/}
 
