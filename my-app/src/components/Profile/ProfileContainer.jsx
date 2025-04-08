@@ -1,7 +1,7 @@
 import Profile from './Profile';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getUserProfile,getUserStatus,updateUserStatus } from './../../redux/profileReducer';
+import { getUserProfile,getUserStatus,updateUserStatus,updateUserPhoto, updateUserProfile } from './../../redux/profileReducer';
 import { compose } from 'redux';
 import {withParams} from './../../hoc/withParams'
 import { useNavigate } from 'react-router';
@@ -28,13 +28,13 @@ const ProfileContainer = (props) =>{
         props.getUserStatus(userId)
         
 
-    },[props.isAuth, navigate]) 
-
-    
+    },[props.isAuth,navigate])         
         return (
             <div>
-                <Profile {...props} profile={props.userProfile} status ={JSON.stringify(props.userStatus)}
-                                         updateUserStatus = {props.updateUserStatus} />
+                <Profile {...props} profile={props.userProfile} status ={props.userStatus}
+                                    updateUserStatus = {props.updateUserStatus} updateUserPhoto={props.updateUserPhoto}
+                                    isOwner = {!props.profileId} updateUserProfile={props.updateUserProfile}
+                                    authorizedUserId = {props.authorizedUserId} incorrectUrlFormat = {props.incorrectUrlFormat} />
             </div>
         )
     
@@ -46,16 +46,17 @@ const mapStateToProps = (state) => {
         userProfile: state.profilePage.userProfile,
         userStatus: state.profilePage.userStatus,
         authorizedUserId: state.auth.userId,
-        isAuth:state.auth.isAuth
+        isAuth:state.auth.isAuth,
+        incorrectUrlFormat:state.profilePage.incorrectUrlFormat
     }
 }
 
 export default compose(
-    connect(mapStateToProps, { getUserProfile,getUserStatus,updateUserStatus }),
+    connect(mapStateToProps, { getUserProfile,getUserStatus,updateUserStatus,updateUserPhoto,updateUserProfile }),
     withParams,
 )(ProfileContainer)
 
-
+  
 {/*class ProfileContainer extends React.Component {
 
     componentDidMount() {

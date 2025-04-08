@@ -6,16 +6,17 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import Login from './components/Login/Login'
-import News from './components/News/News';
+// import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import UsersContainer from './components/Users/UsersContainer';
 import { connect } from 'react-redux';
 import { initializeApp } from './redux/appReducer';
 import loader from './../src/assets/images/loader.svg'
-import { BrowserRouter } from 'react-router';
+import { HashRouter, BrowserRouter } from 'react-router';
 import store from './redux/reduxStore'
 import { Provider } from 'react-redux';
+import { Navigate } from 'react-router';
 
 
 const DialogsContainer = lazy(() => import('./components/Dialogs/Dialogs'));
@@ -27,41 +28,49 @@ class App extends React.Component {
   }
 
   render() {
-    if (!this.props.initialized) {
-      return <img src={loader} />
-    }
+    // if (!this.props.initialized) {
+    //   return <img src={loader} />
+    // }
     return (
       <div className='app-wrapper'>
         <HeaderContainer />
         <Navbar />
         <div className='app-wrapper-content'>
 
-        <React.Suspense fallback={loader}>
-          <Routes>
-            {/* Rout - если путь в браузере совпадает с path, то отрисовывается  element */}
+          <React.Suspense fallback={loader}>
+            <Routes>
+              {/* Rout - если путь в браузере совпадает с path, то отрисовывается  element */}
 
-            <Route path='/profile/:profileId?' element={
-              <ProfileContainer />}
-            />
-            
-              <Route path='/dialogs' element={<DialogsContainer/>
-                }
+              <Route path='/' element={
+                <Navigate to='/profile' replace />}
               />
-            
 
-            <Route path='/users' element={
-              <UsersContainer />}
-            />
+              <Route path='/profile/:profileId?' element={
+                <ProfileContainer />}
+              />
 
-            <Route path='/login' element={
-              <Login />}
-            />
+              <Route path='/dialogs' element={<DialogsContainer />
+              }
+              />
 
-            <Route path='/music' Component={Music} />
-            <Route path='/news' Component={News} />
-            <Route path='/settings' Component={Settings} />
 
-          </Routes>
+              <Route path='/users' element={
+                <UsersContainer />}
+              />
+
+              <Route path='/login' element={
+                <Login />}
+              />
+
+              <Route path='*' element={
+                <div>404 NOT FOUND</div>}
+              />
+
+              <Route path='/music' Component={Music} />
+              {/* <Route path='/news' Component={News} /> */}
+              <Route path='/settings' Component={Settings} />
+
+            </Routes>
           </React.Suspense>
 
         </div>
@@ -85,7 +94,7 @@ let AppContainer = connect(mapStateToProps, { initializeApp })(App);
 let SocialNetwork = () => {
   return (
     <React.StrictMode>
-      <BrowserRouter>
+      <BrowserRouter  >
 
         <Provider store={store}>
           <AppContainer />

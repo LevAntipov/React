@@ -6,7 +6,10 @@ function Profile(props) {
 
     return (
         <div>
-            <ProfileInfo profile = {props.profile} status={props.status} updateUserStatus={props.updateUserStatus}/>
+            <ProfileInfo profile = {props.profile} status={props.status} isOwner={props.isOwner}
+                        updateUserStatus={props.updateUserStatus} updateUserPhoto={props.updateUserPhoto}
+                        updateUserProfile={props.updateUserProfile} authorizedUserId={props.authorizedUserId}
+                        incorrectUrlFormat={props.incorrectUrlFormat}/>
             <MyPostsContainer/>
         </div>
     )

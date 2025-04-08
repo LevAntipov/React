@@ -20,7 +20,7 @@ let Paginator = ({ totalItemsCount, pageSize, onPageChanged, currentpage, portio
     }
     const pastportion = () => {
         setportion(portion - 1)
-        onPageChanged(portion > 1 ? portion : (portion - 1) *  10)
+        onPageChanged(portion > 1 ? (portion-1)*portionSize : (portion - 1) *  portionSize)
     }
 
     return (

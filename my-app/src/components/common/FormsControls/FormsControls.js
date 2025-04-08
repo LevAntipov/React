@@ -46,18 +46,23 @@ export function FormControl(Component) {
 
 
 
-export const CreateField = ({ Component, className, placeholder, register, name, rules = {} }) => {
+export const CreateField = ({
+    Component, props = {}, className, placeholder,
+    register, name, rules = {}, errors
+}) => {
     return (
         React.createElement(
-            Component, {
-            className: className,
-            placeholder: placeholder,
-            ...register(name, {
-                ...rules
-            })
+            Component,
+            {
+                className: className,
+                placeholder: placeholder,
+                ...register(name, {
+                    ...rules
+                }),
+                ...props
             }
         )
-    )   
+    )
 }
 
 

@@ -98,6 +98,7 @@ const mapStateToProps = (state) => {
 /*const mapDispatchToProps = (dispatch) => {
     return ({
         addFriend: (userId) => {
+            /какая-нибудь логика/
             dispatch(addFriendAC(userId))
         }, 
     }

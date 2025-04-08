@@ -21,7 +21,7 @@ let Users = ({ totalUsersCount, pageSize, isFetching, users,
             {isFetching
                 ? <img alt="" src={preloader} width={200} height={200} />
                 : users.map((u, index) => <User user={u} followingInProgress={followingInProgress}
-                    index={index} followStatusChange={followStatusChange} />)}
+                    key={index} followStatusChange={followStatusChange} />)}
 
 
         </div>

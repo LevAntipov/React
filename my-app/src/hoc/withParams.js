@@ -7,6 +7,7 @@ import loader from './../assets/images/loader.svg'
 export function withParams(Component) {
     function ComponentWithRouterProp(props) {
         let params = useParams();
+      
         return (
             <Component
                 {...props}

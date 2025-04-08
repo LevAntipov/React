@@ -5,13 +5,15 @@ import { Navigate } from 'react-router';
 import { LoginForm } from './LoginForm';
 import styles from './Login.module.css'
 
+import { authAPI } from '../../api/api';
 
-const Login = ({login,isAuth,isValidData}) => {
+const Login = ({login,isAuth,validationMessage,captchaUrl}) => {
+
     return (<div>
-        <span className={styles.loginItem}>Login</span>
+        <h1 className={styles.loginItem}>Login</h1>
         {isAuth
             ? <Navigate to='/profile' replace />
-            : <LoginForm login={login} isValidData ={isValidData}/>}
+            : <LoginForm login={login} validationMessage ={validationMessage} captchaUrl={captchaUrl}/>}
     </div>
     )
 }
@@ -19,7 +21,8 @@ const Login = ({login,isAuth,isValidData}) => {
 let mapStateToProps = (state) => {
     return {
         isAuth: state.auth.isAuth,
-        isValidData: state.auth.isValidData
+        validationMessage: state.auth.validationMessage,
+        captchaUrl:state.auth.captchaUrl
     }
 
 }

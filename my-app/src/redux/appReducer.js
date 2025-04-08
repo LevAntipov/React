@@ -2,6 +2,16 @@ import { getAuthUserData } from "./authReducer";
 
 const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
 
+// type InitialStateType = {
+//     initialized: boolean,
+// }
+
+// type InitializedSuccessType = {
+//     type: typeof INITIALIZED_SUCCESS
+// }
+
+
+
 
 let initialState = {
     initialized: false

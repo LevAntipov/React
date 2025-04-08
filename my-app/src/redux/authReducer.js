@@ -1,9 +1,10 @@
-import { usersAPI, authAPI } from "../api/api";
+import { usersAPI, authAPI,securityAPI } from "../api/api";
 //import { stopSubmit } from "redux-form";
 
 const SET_USER_DATA = "auth/SET-USER-DATA";
 const SET_USER_PROFILE_DATA = "auth/SET-USERS-PROFILE-DATA";
-const VALIDATION_USER_DATA = "VALIDATION-USER-DATA"
+const INCORRECT_VALIDATION_USER_DATA = "INCORRECT-VALIDATION-USER-DATA"
+const GET_CAPTCHA_URL_SUCCESS = "GET-CAPTCHA-URL-SUCCESS"
 
 let initialState = {
     userId: undefined,
@@ -11,10 +12,11 @@ let initialState = {
     login: null,
     isAuth: false,
     isFetching: true,
+    captchaUrl:null,
 
     //Testing
     avatar_TEST: null,
-    isValidData:true
+    validationMessage:false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -31,11 +33,16 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 avatar_TEST: action.avatar_TEST
             }
-        case VALIDATION_USER_DATA:
+        case INCORRECT_VALIDATION_USER_DATA:
             return{
                 ...state,
-                isValidData:action.bool
+                validationMessage:action.messages[0]
             }
+            case GET_CAPTCHA_URL_SUCCESS:
+                return{
+                    ...state,
+                    captchaUrl:action.captchaUrl
+                }
         default:
             return state;
     }
@@ -56,6 +63,13 @@ export const setUserAvatar = (avatar_TEST) => {
     }
 }
 
+export const getCaptchaUrlSuccess = (captchaUrl) => {
+    return {
+        type: GET_CAPTCHA_URL_SUCCESS,
+        captchaUrl
+    }
+}
+
 export const getAuthUserData = () => async (dispatch) => {
     let response = await authAPI.me()
     if (response.data.resultCode === 0) {
@@ -73,29 +87,39 @@ export const getAuthUserData = () => async (dispatch) => {
 }
 
 //TESTING
-export const validationOfUserData = (bool) => {
+export const incorrectValidationOfUserData = (messages) => {
     return{
-        type:VALIDATION_USER_DATA,
-        bool
+        type:INCORRECT_VALIDATION_USER_DATA,
+        messages
     }
 }
 //TESTING
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password,captchaValue) => async (dispatch) => {
 
-    let response = await authAPI.login(email, password)
+    let response = await authAPI.login(email, password, captchaValue)
     if (response.data.resultCode === 0) {
-        dispatch(validationOfUserData(true))
+        dispatch(incorrectValidationOfUserData(false))
         dispatch(getAuthUserData())
+        dispatch(getCaptchaUrlSuccess(null)) //чтобы после logout каптчи не было
     }
     else {
-        // // это было для REDUX-FORM
+        if (response.data.resultCode === 10){
+            dispatch(getCaptchaUrl())
+        }
+        let messages = response.data.messages
+        dispatch(incorrectValidationOfUserData(messages)) 
+        return response.data.resultCode
+                // // это было для REDUX-FORM
         // let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error"
         // let action = stopSubmit("login",{_error:message}) //actioncreator из reduxForm, позволяет
         // dispatch(action)                                          //получить общую ошибку для всей формы
-        console.log('error')
-        dispatch(validationOfUserData(false))
     }
+}
+
+export const getCaptchaUrl = () => async (dispatch) => {
+    let response = await securityAPI.getCaptcha()
+        dispatch(getCaptchaUrlSuccess(response.data.url))
 }
 
 export const logout = () => async (dispatch) => {
