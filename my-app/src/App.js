@@ -14,10 +14,9 @@ import { connect } from 'react-redux';
 import { initializeApp } from './redux/appReducer';
 import loader from './../src/assets/images/loader.svg'
 import { HashRouter, BrowserRouter } from 'react-router';
+import { Navigate } from 'react-router';
 import store from './redux/reduxStore'
 import { Provider } from 'react-redux';
-import { Navigate } from 'react-router';
-
 
 const DialogsContainer = lazy(() => import('./components/Dialogs/Dialogs'));
 

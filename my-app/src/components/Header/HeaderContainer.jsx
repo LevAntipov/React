@@ -17,10 +17,10 @@ const mapStateToProps = (state) => {
     return {
         isAuth: state.auth.isAuth,
         login: state.auth.login,
-        avatar_TEST: state.auth.avatar_TEST
+        avatar: state.auth.avatar
     }
 }
 
-const HeaderContainer = connect(mapStateToProps, {logout })(HeaderAPIContainer)
+const HeaderContainer = connect(mapStateToProps, {logout})(HeaderAPIContainer)
 
 export default HeaderContainer

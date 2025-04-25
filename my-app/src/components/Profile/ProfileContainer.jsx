@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router';
 
 //import {withAuthRedirect} from './../../hoc/withAuthRedirect'
 
-
 const ProfileContainer = (props) =>{
     const navigate = useNavigate()
     

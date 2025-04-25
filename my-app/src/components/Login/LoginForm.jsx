@@ -17,7 +17,7 @@ export const LoginForm = ({ login, validationMessage,captchaUrl }) => {
 
     const onSubmit = async (data) => {
 
-        const response = await login(data.email, data.password,data.captchaValue)
+        const response = await login({email:data.email,password: data.password,captchaValue:data.captchaValue})
         if (response === 1) {
             setError('root.serverError', {
                 type: 1,
